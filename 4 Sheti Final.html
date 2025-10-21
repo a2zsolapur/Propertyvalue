@@ -1,0 +1,1107 @@
+<!doctype html>
+<html lang="mr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>शेत जमीनीचे सरकारी मूल्यांकन — Final</title>
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --accent:#1e40af;
+      --accent-2:#0891b2;
+      --muted:#64748b;
+      --border:#e2e8f0;
+      --shadow: 0 4px 12px rgba(30,64,175,0.08);
+      --radius:8px;
+      --maxw:1200px;
+      --input-w:100%;
+      --input-sm-w:100%;
+      --good:#059669;
+      --warn:#d97706;
+      --text-dark:#0f172a;
+      --text-light:#475569;
+    }
+    
+    html,body{height:100%;margin:0;padding:0;}
+    body{
+      font-family: 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', Roboto, Arial; 
+      margin:0;
+      background:linear-gradient(135deg, var(--bg) 0%, #ffffff 100%);
+      color:var(--text-dark);
+      line-height: 1.6;
+    }
+    
+    .wrap{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:12px;
+    }
+    
+    header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+    }
+    
+    h1{
+      font-size:clamp(18px, 4vw, 24px);
+      margin:0;
+      font-weight:700;
+      color:var(--accent);
+      flex: 1;
+      min-width: 250px;
+    }
+    
+    .subtitle{
+      color:var(--muted);
+      font-size:clamp(11px, 2.5vw, 13px);
+      margin-top:4px;
+    }
+
+    .header-contact {
+      color:var(--muted);
+      font-size:clamp(11px, 2.5vw, 13px);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .tabs{
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+      flex-wrap:wrap;
+      justify-content: center;
+    }
+    
+    .tab{
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:clamp(8px, 2vw, 12px) clamp(10px, 3vw, 16px);
+      border-radius:var(--radius);
+      cursor:pointer;
+      box-shadow:var(--shadow);
+      font-weight:600;
+      color:var(--text-dark);
+      font-size:clamp(12px, 2.5vw, 14px);
+      text-align: center;
+      flex: 1;
+      min-width: 120px;
+      transition: all 0.2s ease;
+    }
+    
+    .tab:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(30,64,175,0.12);
+    }
+    
+    .tab.active{
+      background:linear-gradient(135deg, var(--accent), var(--accent-2));
+      color:white;
+      border-color:transparent;
+    }
+
+    .main{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+      margin-top:16px;
+    }
+    
+    .panel{
+      background:var(--card);
+      padding:clamp(12px, 3vw, 20px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+    
+    .side{
+      background:transparent;
+      padding:0;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+
+    .grid-inline{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    
+    label{
+      display:block;
+      font-size:clamp(12px, 2.5vw, 14px);
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight: 500;
+    }
+    
+    input[type=text], input[type=number], select{
+      width:100%;
+      padding:clamp(10px, 2.5vw, 12px);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      font-size:clamp(14px, 3vw, 16px);
+      background:var(--card);
+      color:var(--text-dark);
+      box-sizing: border-box;
+      transition: border-color 0.2s ease;
+    }
+    
+    input[type=text]:focus, input[type=number]:focus, select:focus{
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(30,64,175,0.1);
+    }
+    
+    .input-sm{
+      max-width:100%;
+    }
+    
+    .full{
+      grid-column:1 / -1;
+    }
+    
+    .actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-start;
+      margin-top:16px;
+      flex-wrap: wrap;
+    }
+    
+    button{
+      padding:clamp(10px, 2.5vw, 12px) clamp(14px, 3vw, 18px);
+      border-radius:var(--radius);
+      border:0;
+      cursor:pointer;
+      font-weight:600;
+      font-size:clamp(13px, 2.5vw, 14px);
+      transition: all 0.2s ease;
+      flex: 1;
+      min-width: 120px;
+    }
+    
+    .btn-primary{
+      background:linear-gradient(135deg, var(--accent), var(--accent-2));
+      color:#fff;
+      box-shadow:0 4px 12px rgba(30,64,175,0.25);
+    }
+    
+    .btn-primary:hover{
+      transform: translateY(-1px);
+      box-shadow:0 6px 16px rgba(30,64,175,0.35);
+    }
+    
+    .btn-ghost{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--muted);
+    }
+    
+    .btn-ghost:hover{
+      background:var(--card);
+      color:var(--text-dark);
+    }
+
+    .result{
+      margin-top:16px;
+    }
+    
+    .result .title{
+      font-size:clamp(16px, 4vw, 20px);
+      font-weight:800;
+      text-align:center;
+      padding:clamp(12px, 3vw, 16px);
+      border-radius:var(--radius);
+      border:2px solid var(--accent);
+      display:block;
+      background:linear-gradient(135deg, #fff, #f8fafc);
+      max-width:100%;
+      margin:0 auto;
+      color: var(--accent);
+    }
+    
+    .result .price{
+      margin-top:12px;
+      font-size:clamp(18px, 5vw, 24px);
+      font-weight:900;
+      padding:clamp(12px, 3vw, 16px);
+      border-radius:var(--radius);
+      border:2px solid var(--accent);
+      display:block;
+      background:linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      max-width:100%;
+      margin:12px auto;
+      text-align:center;
+      box-shadow: 0 6px 20px rgba(30,64,175,0.2);
+    }
+    
+    .row{
+      display:flex;
+      justify-content:space-between;
+      padding:8px 0;
+      border-bottom:1px dashed var(--border);
+      font-size:clamp(13px, 2.8vw, 14px);
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .row div:first-child{
+      font-weight: 500;
+      color: var(--text-light);
+      flex: 1;
+    }
+    
+    .row div:last-child{
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: right;
+      word-break: break-word;
+    }
+    
+    .muted{
+      color:var(--muted);
+    }
+    
+    .micro{
+      font-size:clamp(10px, 2vw, 12px);
+      color:var(--muted);
+    }
+    
+    .badge{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:clamp(10px, 2vw, 12px);
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:var(--accent);
+      font-weight: 600;
+    }
+    
+    .ok{
+      background:#ecfdf5;
+      border-color:#bbf7d0;
+      color:var(--good);
+    }
+
+    .docs{
+      background:var(--card);
+      padding:clamp(12px, 3vw, 16px);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      margin-top: 12px;
+    }
+    
+    .docs h3{
+      margin:0 0 12px;
+      font-size:clamp(14px, 3vw, 16px);
+      color:var(--accent);
+      font-weight: 700;
+    }
+    
+    .docs ul{
+      padding-left:20px;
+      margin:0;
+      color:var(--text-light);
+    }
+    
+    .docs li{
+      font-size:clamp(12px, 2.5vw, 14px);
+      margin-bottom: 4px;
+    }
+
+    .contact{
+      margin-top:12px;
+      padding:clamp(12px, 3vw, 16px);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      background:linear-gradient(135deg, #ffffff, #f0fdf4);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    
+    .contact .name{
+      font-weight:800;
+      color:#dc2626;
+      font-size:clamp(14px, 3vw, 16px);
+    }
+    
+    .contact .mobile{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      font-weight:600;
+      color:#92400e;
+      font-size:clamp(12px, 2.8vw, 14px);
+      line-height: 1.5;
+    }
+
+    .result-actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    /* Mobile-first responsive design */
+    @media (min-width: 480px) {
+      .grid{
+        grid-template-columns:1fr 1fr;
+        gap:16px;
+      }
+      
+      .result-actions{
+        grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+      }
+      
+      .actions{
+        justify-content: flex-start;
+      }
+      
+      button{
+        flex: none;
+        min-width: 140px;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .main{
+        grid-template-columns:2fr 1fr;
+        gap:20px;
+      }
+      
+      .side{
+        order: 2;
+      }
+      
+      .wrap{
+        padding: 20px;
+      }
+      
+      header{
+        flex-wrap: nowrap;
+      }
+      
+      .tabs{
+        justify-content: flex-start;
+      }
+      
+      .tab{
+        flex: none;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .grid{
+        grid-template-columns:1fr 1fr 1fr;
+        gap:20px;
+      }
+      
+      .result-actions{
+        grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+        justify-content: center;
+      }
+    }
+
+    /* capture styling */
+    #captureArea{
+      background:linear-gradient(135deg, #ffffff, #f8fafc);
+      padding:clamp(16px, 4vw, 24px);
+      border-radius:var(--radius);
+    }
+    
+    #moreInfo{
+      margin-top:12px;
+      text-align:center;
+      font-weight:600;
+      color:var(--text-dark);
+      font-size:clamp(12px, 2.5vw, 14px);
+    }
+
+    /* PAGE-2 (full color) for PDF */
+    #page2{
+      width:100%;
+      max-width:800px;
+      padding:clamp(20px, 5vw, 32px);
+      background: linear-gradient(135deg, #1e40af 0%, #0891b2 50%, #0f172a 100%);
+      color:#ffffff;
+      border-radius:12px;
+      margin: 0 auto;
+    }
+    
+    #page2 .hd{
+      font-size:clamp(20px, 5vw, 28px);
+      font-weight:900;
+      margin:4px 0 8px;
+    }
+    
+    #page2 .sub{
+      opacity:0.9;
+      font-size:clamp(12px, 3vw, 14px);
+    }
+    
+    #page2 .box{
+      margin-top:16px;
+      background:rgba(255,255,255,0.15);
+      border:1px solid rgba(255,255,255,0.3);
+      border-radius:var(--radius);
+      padding:clamp(12px, 3vw, 20px);
+    }
+
+    /* loader */
+    #captureLoader{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,0.8);
+      z-index:9999;
+      align-items:center;
+      justify-content:center;
+      backdrop-filter: blur(4px);
+    }
+    
+    #captureLoader .box{
+      background:white;
+      padding:20px 24px;
+      border-radius:var(--radius);
+      display:flex;
+      gap:12px;
+      align-items:center;
+      box-shadow:0 20px 50px rgba(0,0,0,0.3);
+      max-width: 90vw;
+    }
+
+    /* Radio button styling */
+    input[type="radio"] {
+      width: auto;
+      margin-right: 6px;
+    }
+    
+    label:has(input[type="radio"]) {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 16px;
+      margin-bottom: 8px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* Loading animation */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #captureLoader svg {
+      animation: spin 1s linear infinite;
+    }
+    
+    #captureLoader circle {
+      stroke-dasharray: 80;
+      stroke-dashoffset: 60;
+      animation: dash 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes dash {
+      0% { stroke-dashoffset: 60; }
+      50% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -60; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>शेत जमीनीचे सरकारी मूल्यांकन</h1>
+        <div class="subtitle">लॅपटॉप आणि मोबाइल दोन्हीवर कार्यरत — सुंदर, स्पष्ट व रिस्पॉन्सिव्ह</div>
+      </div>
+      <div class="header-contact">A2z Online Services, Solapur</div>
+    </header>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="1">फक्त हेक्टरी दर</div>
+      <div class="tab" data-tab="2">हेक्टरी + चौ.मी. दर</div>
+      <div class="tab" data-tab="3">फक्त चौ.मी. दर</div>
+    </div>
+
+    <div class="main">
+      <div>
+        <!-- OPTION 1 -->
+        <div class="panel" id="tab-1">
+          <div class="grid">          
+            <div class="grid-inline full">
+              <div>
+                <label>विभाग क्रमांक</label>
+                <input type="text" id="o1_section">
+              </div>
+              <div>
+                <label>दर (प्रति हेक्टरी ₹)</label>
+                <input type="number" id="o1_rate_hect" step="0.01">
+              </div>
+            </div>
+            
+            <div class="grid-inline full">
+              <div>
+                <label>Area (हेक्टर)</label>
+                <input type="number" id="o1_hect" step="0.0001" class="input-sm" inputmode="decimal">
+              </div>
+              <div>
+                <label>Area (आर)</label>
+                <input type="number" id="o1_are" step="1" class="input-sm" inputmode="numeric">
+              </div>
+            </div>
+
+            <div class="full">
+              <label>शेतजमीनीचा प्रकार</label>
+              <label><input type="radio" name="o1_type" value="jirayat" checked> जिरायत (दर × 1)</label>
+              <label><input type="radio" name="o1_type" value="hangami"> हंगामी बागायत (दर × 1.5)</label>
+              <label><input type="radio" name="o1_type" value="bagayat"> बागायत (दर × 2)</label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary" data-action="computeOption1">Calculate</button>
+            <button class="btn-ghost" data-action="clearAll">Clear</button>
+          </div>
+        </div>
+
+        <!-- OPTION 2 -->
+        <div class="panel" id="tab-2" style="display:none;margin-top:12px">
+          <div class="grid">
+            <div class="grid-inline full">
+              <div>
+                <label>विभाग क्रमांक (प्रति हेक्टरी)</label>
+                <input type="text" id="o2_section_hect">
+              </div>
+              <div>
+                <label>दर (प्रति हेक्टरी ₹)</label>
+                <input type="number" id="o2_rate_hect" step="0.01">
+              </div>
+            </div>
+
+            <div class="grid-inline full">
+              <div>
+                <label>विभाग क्रमांक (प्रति चौ.मी.)</label>
+                <input type="text" id="o2_section_sqm">
+              </div>
+              <div>
+                <label>दर (प्रति चौ.मी. ₹)</label>
+                <input type="number" id="o2_rate_sqm" step="0.01">
+              </div>
+            </div>
+ 		    
+            <div class="grid-inline full">
+              <div>
+                <label>Area (हेक्टर)</label>
+                <input type="number" id="o2_hect" step="0.0001" class="input-sm" inputmode="decimal">
+              </div>
+              <div>
+                <label>Area (आर)</label>
+                <input type="number" id="o2_are" step="1" class="input-sm" inputmode="numeric">
+              </div>
+            </div>
+            
+            <div class="full">
+              <label>शेतजमीनीचा प्रकार</label>
+              <label><input type="radio" name="o2_type" value="jirayat" checked> जिरायत (दर × 1)</label>
+              <label><input type="radio" name="o2_type" value="hangami"> हंगामी बागायत (दर × 1.5)</label>
+              <label><input type="radio" name="o2_type" value="bagayat"> बागायत (दर × 2)</label>
+            </div>
+
+            <div class="full">
+              <label>समोरील रस्त्याची रुंदी</label>
+              <select id="o2_road">
+                <option value="6">6.00 मीटर</option>
+                <option value="9">9.00 मीटर (दरात 1.10% वाढ)</option>
+                <option value="12">12.00 मीटर (दरात 1.10% वाढ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary" data-action="computeOption2">Calculate</button>
+            <button class="btn-ghost" data-action="clearAll">Clear</button>
+          </div>
+        </div>
+
+        <!-- OPTION 3 -->
+        <div class="panel" id="tab-3" style="display:none;margin-top:12px">
+          <div class="grid">
+            <div class="grid-inline full">
+              <div>
+                <label>विभाग क्रमांक (प्रति चौ.मी.)</label>
+                <input type="text" id="o3_section_sqm">
+              </div>
+              <div>
+                <label>दर (प्रति चौ.मी. ₹)</label>
+                <input type="number" id="o3_rate_sqm" step="0.01">
+              </div>
+            </div>
+
+            <div class="grid-inline full">
+              <div>
+                <label>जमीनीचे क्षेत्रफळ (हेक्टर)</label>
+                <input type="number" id="o3_f2_hect" step="0.0001" class="input-sm" inputmode="decimal">
+              </div>
+              <div>
+                <label>जमीनीचे क्षेत्रफळ (आर)</label>
+                <input type="number" id="o3_f2_are" step="1" class="input-sm" inputmode="numeric">
+              </div>
+            </div>
+
+            <div class="full">
+              <label>समोरील रस्त्याची रुंदी</label>
+              <select id="o3_road">
+                <option value="6">6.00 मीटर</option>
+                <option value="9">9.00 मीटर (दरात 1.10% वाढ)</option>
+                <option value="12">12.00 मीटर (दरात 1.10% वाढ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="panel">
+            <strong>Form – 3 (स्लॅबनुसार)</strong>
+            <p class="muted">(500 @100%, 1500 @90%, 2000 @80%, 6000 @70%, उर्वरित @60%)</p>
+            <div style="margin-top:10px">
+              <button class="btn-primary" data-action="computeOption3">Calculate Slab</button>
+              <button class="btn-ghost" data-action="clearAll">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="panel result" id="resultBox" style="display:none;margin-top:12px">
+          <div id="captureArea">
+            <div class="title" id="resultTitle">शेतजमीनीचे सरकारी मूल्यांकन</div>
+		
+            <div id="resultContent" style="margin-top:16px;max-width:100%;margin-left:auto;margin-right:auto;text-align:left"></div>
+            <div class="price" id="resultBig">₹ 0 /-</div>
+
+            <div class="result-actions">
+              <select id="stampType">
+                <option value="5">मुद्रांक शुल्क - ग्रामीण 5%</option>
+                <option value="6">मुद्रांक शुल्क - प्रभाव 6%</option>
+              </select>
+              <button class="btn-primary" data-action="applyStamp">मुद्रांक व नोंदणी गणना करा</button>
+              <button class="btn-ghost" data-action="printPDF">Print / Save PDF</button>
+              <button class="btn-ghost" data-action="shareWhatsApp">WhatsApp Share</button>
+              <button class="btn-ghost" data-action="clearAll">Clear</button>
+              <button class="btn-ghost" data-action="goBack">Back</button>
+            </div>
+
+            <div id="moreInfo">अधिक माहितीसाठी संपर्क: <span class="badge ok">A2z Online Services, Solapur • 📱 8668696634</span></div>
+
+            <div class="docs" id="docsList" style="margin-top:12px"></div>
+
+          </div>
+        </div>
+
+        <!-- HIDDEN PAGE 2 TEMPLATE -->
+        <div id="page2" style="display:none">
+          <div class="hd">शेतजमीनीचे सरकारी मूल्यांकन — सारांश</div>
+          <div class="sub">Page 2 • कलर शीट • WhatsApp/Print साठी आकर्षक लेआउट</div>
+          <div class="box">
+            <div style="font-weight:800;font-size:clamp(16px, 4vw, 20px);margin-bottom:8px">अधिक माहितीसाठी संपर्क</div>
+            <div>A2z Online Services, Solapur</div>
+            <div style="margin-top:6px;font-size:clamp(16px, 4vw, 20px)">📱 8668696634</div>
+            <div style="margin-top:12px" class="micro">सेवा: दस्त लेखन, नोंदणी मार्गदर्शन, स्टॅम्प ड्युटी/रेजिस्ट्रेशन कॅलक्युलेशन</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDE: Documents list & contact -->
+      <aside class="side">
+        <div class="docs panel" style="text-align:left;">
+          <h3>शेतजमीनीच्या दस्तऐवज नोंदणीसाठी</h3>
+          <ul id="sideDocs">
+            <li>7/12 उतारा (3 वर्षांचे पिक-पाणी नोंद असलेला)</li>
+            <li>संबंधीत फेरफार उतारे</li>
+            <li>झोन दाखला (ज्यावेळी लागू असेल)</li>
+            <li>गट नकाशा (ज्यावेळी लागू असेल)</li>
+            <li>जुने खरेदीखत दस्त</li>
+            <li>शेतजमीनीची चतु:सिमा (पूर्व/पश्चिम/दक्षिण/उत्तर)</li>
+            <li>बँक कर्ज असल्यास — NOC, गहाणमुक्ती इंडेक्स</li>
+            <li>खरेदीदार/विक्रेता — आधार, PAN, फोटो (प्रत्येकी 2)</li>
+            <li>खरेदीपूर्व जाहिर नोटीस असल्यास — वृत्तपत्र कटींग व वकिलांचा NOC</li>
+            <li>पेमेंट तपशील (Cheque/DD/RTGS/NEFT इ.)</li>
+          </ul>
+
+          <div style="margin-top:12px" class="contact">
+            <div class="name">संपर्क</div>
+            <div class="mobile">📱 8668696634</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    /* -------- Helpers -------- */
+    const money = n => '₹ ' + Number(n||0).toLocaleString('en-IN');
+    const two = n => (+(n)).toFixed(2);
+
+    /* -------- Option 1 -------- */
+    function computeOption1(){
+      const hect = parseFloat(document.getElementById('o1_hect').value || 0);
+      const are  = parseFloat(document.getElementById('o1_are').value || 0);
+      const section = document.getElementById('o1_section').value || '';
+      const baseRate = parseFloat(document.getElementById('o1_rate_hect').value || 0);
+      const type = (document.querySelector('input[name="o1_type"]:checked')?.value) || 'jirayat';
+
+      const totalHect = +(hect + (are/100));
+      let multiplier = 1;
+      let typeLabel = 'जिरायत (दर × 1)';
+      if(type === 'hangami') { multiplier = 1.5; typeLabel = 'हंगामी बागायत (दर × 1.5)'; }
+      else if(type === 'bagayat') { multiplier = 2; typeLabel = 'बागायत (दर × 2)'; }
+      
+      const appliedRate = baseRate * multiplier;
+      const govPrice = +(appliedRate * totalHect).toFixed(2);
+      let regFee = +(govPrice * 0.01).toFixed(2);
+      if(regFee > 30000) regFee = 30000;
+
+      // Bifurcation
+      const rows = [
+        ['एकूण क्षेत्र', `${totalHect.toFixed(4)} हे.`],
+        ['विभाग क्रमांक', section || '-'],
+        ['मूळ दर (प्रति हे.)', money(baseRate) + ' / हे.'],
+        ['शेतजमीनीचा प्रकार', typeLabel],
+        ['लागू दर (प्रति हे.)', money(appliedRate) + ' / हे.'],
+        ['हिसाब', `${money(appliedRate)} × ${totalHect.toFixed(4)} = ${money(govPrice)}`],
+      ];
+
+      showResult({
+        title: 'शेतजमीनीचे सरकारी मूल्यांकन',
+        fields: rows,
+        price: govPrice, regFee, option: 1
+      });
+    }
+
+    /* -------- Option 2 -------- */
+    function computeOption2(){
+      const hect = parseFloat(document.getElementById('o2_hect').value || 0);
+      const are  = parseFloat(document.getElementById('o2_are').value || 0);
+      const sectionH = document.getElementById('o2_section_hect').value || '';
+      const sectionS = document.getElementById('o2_section_sqm').value || '';
+      const baseRateH = parseFloat(document.getElementById('o2_rate_hect').value || 0);
+      let rateS = parseFloat(document.getElementById('o2_rate_sqm').value || 0);
+      const type = (document.querySelector('input[name="o2_type"]:checked')?.value) || 'jirayat';
+      const road = parseFloat(document.getElementById('o2_road').value || 6);
+
+      const totalSqm = Math.max(0, (hect*10000) + (are*100));
+      const firstBlock = Math.min(2000, totalSqm);
+      const remainSqm = Math.max(0, totalSqm - firstBlock);
+
+      let multiplier = 1;
+      let typeLabel = 'जिरायत (दर × 1)';
+      if(type === 'hangami') { multiplier = 1.5; typeLabel = 'हंगामी बागायत (दर × 1.5)'; }
+      else if(type === 'bagayat') { multiplier = 2; typeLabel = 'बागायत (दर × 2)'; }
+      
+      const appliedRateH = baseRateH * multiplier;
+      const roadFactor = (road === 9 || road === 12) ? 1.10 : 1.0;
+      const appliedRateS = +(rateS * roadFactor).toFixed(4);
+
+      const valSqm = +(firstBlock * appliedRateS).toFixed(2);
+      const valH   = +((remainSqm/10000) * appliedRateH).toFixed(2);
+      const govPrice = +(valSqm + valH).toFixed(2);
+      let regFee = +(govPrice * 0.01).toFixed(2);
+      if(regFee > 30000) regFee = 30000;
+
+      // Bifurcation
+      const rows = [
+        ['एकूण क्षेत्र', `${hect} हे. ${are} आर (=${totalSqm.toLocaleString('en-IN')} चौ.मी.)`],
+        ['प्रथम 2000 चौ.मी. @ चौ.मी. दर', `${firstBlock.toLocaleString('en-IN')} × ${money(appliedRateS)} = ${money(valSqm)}`],
+        ['उर्वरित क्षेत्र @ हेक्टरी दर', `${remainSqm.toLocaleString('en-IN')} चौ.मी. (= ${(remainSqm/10000).toFixed(4)} हे.) × ${money(appliedRateH)} = ${money(valH)}`],
+        ['विभाग क्रमांक (प्रति हे.)', sectionH || '-'],
+        ['मूळ हेक्टरी दर', money(baseRateH) + ' / हे.'],
+        ['शेतजमीनीचा प्रकार', typeLabel],
+        ['लागू हेक्टरी दर', money(appliedRateH) + ' / हे.'],
+        ['विभाग क्रमांक (प्रति चौ.मी.)', sectionS || '-'],
+        ['मूळ चौ.मी. दर', money(rateS) + ' / चौ.मी.'],
+        ['जमीनी समोरील रस्ता', (road===6?'6m':'≥9m') + ' → × ' + roadFactor],
+        ['लागू चौ.मी. दर', money(appliedRateS) + ' / चौ.मी.'],
+        ['एकूण सरकारी मुल्यांकन', money(valSqm) + ' + ' + money(valH) + ' = ' + money(govPrice)],
+      ];
+
+      showResult({
+        title: 'शेतजमीनीचे सरकारी मूल्यांकन',
+        fields: rows,
+        price: govPrice, regFee, option: 2
+      });
+    }
+
+    /* -------- Option 3 -------- */
+    function computeOption3(){
+      const hect = parseFloat(document.getElementById('o3_f2_hect').value || 0);
+      const are  = parseFloat(document.getElementById('o3_f2_are').value || 0);
+      const section = document.getElementById('o3_section_sqm').value || '';
+      let rate = parseFloat(document.getElementById('o3_rate_sqm').value || 0);
+      const road = parseFloat(document.getElementById('o3_road').value || 6);
+
+      const roadFactor = (road === 9 || road === 12) ? 1.10 : 1.0;
+      const appliedRate = +(rate * roadFactor).toFixed(4);
+      const totalSqm = Math.max(0, (hect*10000) + (are*100));
+
+      // slab calc
+      let remaining = totalSqm;
+      const slabs = [
+        {size:500,  pct:1.00, lbl:'500 @100%'},
+        {size:1500, pct:0.90, lbl:'1500 @90%'},
+        {size:2000, pct:0.80, lbl:'2000 @80%'},
+        {size:6000, pct:0.70, lbl:'6000 @70%'}
+      ];
+      let sum = 0, breakdown = [];
+      for(const s of slabs){
+        const take = Math.min(remaining, s.size);
+        const val = +(take * appliedRate * s.pct).toFixed(2);
+        if(take>0){
+          sum += val;
+          breakdown.push([`${s.lbl}`, `${take.toLocaleString('en-IN')} × ${money(appliedRate)} × ${Math.round(s.pct*100)}% = ${money(val)}`]);
+        }
+        remaining -= take;
+      }
+      if(remaining>0){
+        const val = +(remaining * appliedRate * 0.60).toFixed(2);
+        sum += val;
+        breakdown.push(['उर्वरित @60%', `${remaining.toLocaleString('en-IN')} × ${money(appliedRate)} × 60% = ${money(val)}`]);
+      }
+
+      const govPrice = +sum.toFixed(2);
+      let regFee = +(govPrice * 0.01).toFixed(2);
+      if(regFee > 30000) regFee = 30000;
+
+      const rows = [
+        ['एकूण क्षेत्र', `${hect} हे. ${are} आर (=${totalSqm.toLocaleString('en-IN')} चौ.मी.)`],
+        ['विभाग क्रमांक (प्रति चौ.मी.)', section || '-'],
+        ['मूळ चौ.मी. दर', money(rate) + ' / चौ.मी.'],
+        ['जमीनी समोरील रस्ता ', (road===6?'6m':'≥9m') + ' → × ' + roadFactor],
+        ['लागू चौ.मी. दर', money(appliedRate) + ' / चौ.मी.'],
+        ...breakdown,
+        ['एकूण सरकारी मुल्यांकन', money(govPrice)]
+      ];
+
+      showResult({
+        title: 'जमीनीचे सरकारी मूल्यांकन',
+        fields: rows,
+        price: govPrice, regFee, option: 3
+      });
+    }
+
+    /* -------- Result & Docs -------- */
+    function docsHtml(option){
+      const list = (option === 1)
+        ? ['7/12 उतारा (3 वर्षांचे पिक-पाणी नोंद असलेला)','संबंधीत फेरफार उतारे','जुने खरेदीखत दस्त','शेतजमीनीची चतु:सिमा (पूर्व/पश्चिम/दक्षिण/उत्तर)','बँक कर्ज असल्यास - ना-हरकत दाखला, गहाणमुक्तीचा इंडेक्स','खरेदीदार/विक्रेता - आधार, PAN, फोटो (प्रत्येकी 2)','खरेदीदार शेतकरी पुरावा (7/12)','जाहिर नोटीस/वृत्तपत्र कटींग व वकिलांचा NOC (असल्यास)','पेमेंट तपशील (Cheque/DD/RTGS/NEFT)']
+        : ['7/12 उतारा (3 वर्षांचे पिक-पाणी नोंद)','संबंधीत फेरफार उतारे','झोन दाखला','गट नकाशा','जुने खरेदीखत दस्त','शेतजमीनीची चतु:सिमा','बँक कर्ज असल्यास – NOC / गहाणमुक्ती इंडेक्स','खरेदीदार/विक्रेता – आधार, PAN, फोटो (प्रत्येकी 2)','खरेदीपूर्व जाहिर नोटीस असल्यास – कटींग व वकिलांचा NOC','पेमेंट तपशील (Cheque/DD/RTGS/NEFT)'];
+      let h = '<div style="text-align:left">';
+      h += '<h3 style="margin:6px 0;color:var(--accent)">शेतजमीनीच्या दस्तऐवज</h3><ul style="padding-left:18px;color:var(--text-light)">';
+      list.forEach(i=> h += '<li style="margin-bottom:4px">'+i+'</li>');
+      h += '</ul></div>';
+      return h;
+    }
+
+    function showResult({title, fields, price, regFee, option}){
+      const resultBox = document.getElementById('resultBox');
+      resultBox.style.display = 'block';
+      document.getElementById('resultTitle').innerText = title;
+
+      const content = document.getElementById('resultContent');
+      let html = '';
+      fields.forEach(([k,v]) => html += '<div class="row"><div>'+k+'</div><div>'+v+'</div></div>');
+      content.innerHTML = html;
+
+      const big = document.getElementById('resultBig');
+      big.innerText = money(price) + ' /-';
+      big.dataset.gov = Number(price);
+      big.dataset.regfee = Number(regFee);
+
+      const docs = document.getElementById('docsList');
+      docs.innerHTML = docsHtml(option);
+
+      window.scrollTo({top: resultBox.offsetTop - 20, behavior: 'smooth'});
+    }
+
+    /* -------- Duties -------- */
+    function applyStamp(){
+      const pct = parseFloat(document.getElementById('stampType').value || 5);
+      const gov = parseFloat(document.getElementById('resultBig').dataset.gov || 0);
+      const stampAmt = +(gov * (pct/100)).toFixed(2);
+      let regFee = +(gov * 0.01).toFixed(2);
+      if(regFee > 30000) regFee = 30000;   
+      let html = document.getElementById('resultContent').innerHTML;
+      html += '<div class="row"><div>मुद्रांक शुल्क ('+pct+'%)</div><div>'+money(stampAmt)+'</div></div>';
+      html += '<div class="row"><div>नोंदणी फी (जास्तीत जास्त ₹30,000/-)</div><div>'+money(regFee)+'</div></div>';
+      document.getElementById('resultContent').innerHTML = html;
+    }
+
+    /* -------- Printing & Sharing -------- */
+    async function printPDF(){
+      const capture = document.getElementById('captureArea');
+      if(!capture) return alert('No result to print');
+
+      showLoader(true, 'PDF तयार होत आहे...');
+      try{
+        await ensureHtml2Canvas();
+        await ensureJsPDF();
+
+        const canvas1 = await window.html2canvas(capture, {scale:2, useCORS:true, backgroundColor: null});
+        const img1 = canvas1.toDataURL('image/png');
+
+        const p2 = document.getElementById('page2');
+        p2.style.display = 'block';
+        const canvas2 = await window.html2canvas(p2, {scale:2, useCORS:true, backgroundColor: null});
+        const img2 = canvas2.toDataURL('image/png');
+        p2.style.display = 'none';
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({orientation:'portrait', unit:'pt', format:'a4'});
+        const pw = pdf.internal.pageSize.getWidth();
+        const ph = pdf.internal.pageSize.getHeight();
+
+        function addCentered(img, cw, ch){
+          const r = Math.min(pw/cw, (ph-40)/ch);
+          const w = cw*r, h = ch*r;
+          const mx = (pw - w)/2, my = (ph - h)/2;
+          pdf.addImage(img, 'PNG', mx, my, w, h);
+        }
+
+        addCentered(img1, canvas1.width, canvas1.height);
+        pdf.addPage();
+        addCentered(img2, canvas2.width, canvas2.height);
+
+        pdf.save('sheti-mulyankan.pdf');
+      } catch(err){
+        console.error('printPDF error', err);
+        alert('PDF generation failed. कृपया पुन्हा प्रयत्न करा.');
+      } finally{
+        showLoader(false);
+      }
+    }
+
+    async function shareWhatsApp(){
+      const capture = document.getElementById('captureArea');
+      if(!capture) return alert('No result to share');
+      showLoader(true, 'WhatsApp साठी प्रतिमा तयार होत आहे...');
+      try{
+        await ensureHtml2Canvas();
+        const canvas = await window.html2canvas(capture, {scale:2, useCORS:true, backgroundColor: null});
+        const dataUrl = canvas.toDataURL('image/png');
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        const file = new File([blob], 'sheti-valuation.png', {type: 'image/png'});
+
+        if(navigator.canShare && navigator.canShare({files:[file]})){
+          await navigator.share({files:[file], title: 'शेतजमीनीचे मूल्यांकन', text: 'शेतजमीनीचे सरकारी मूल्यांकन — A2z Online Services, solapur'});
+          showLoader(false);
+          return;
+        }
+
+        const imageWindow = window.open();
+        imageWindow.document.write('<title>Download image</title>');
+        imageWindow.document.write('<img src="'+dataUrl+'" style="max-width:100%;height:auto">');
+        imageWindow.document.close();
+        const text = encodeURIComponent('शेतजमीनीचे सरकारी मूल्यांकन — A2z Online Services, Solapur');
+        window.open('https://wa.me/?text=' + text, '_blank');
+      } catch(err){
+        console.error('shareWhatsApp error', err);
+        alert('Share failed: ' + (err.message || err));
+      } finally{ showLoader(false); }
+    }
+
+    /* -------- Utilities -------- */
+    function showLoader(show, message){
+      let L = document.getElementById('captureLoader');
+      if(!L){
+        L = document.createElement('div');
+        L.id = 'captureLoader';
+        L.innerHTML = '<div class="box"><svg width="28" height="28" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round"></circle></svg><div id="loaderMsg" style="font-weight:700;color:var(--text-dark)"></div></div>';
+        document.body.appendChild(L);
+      }
+      L.style.display = show ? 'flex' : 'none';
+      const msg = document.getElementById('loaderMsg'); if(msg) msg.innerText = message || '';
+    }
+
+    function loadScript(url){
+      return new Promise((resolve, reject) => {
+        if(document.querySelector('script[src="'+url+'"]')) return resolve();
+        const s = document.createElement('script');
+        s.src = url; s.async = true;
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error('Failed to load '+url));
+        document.head.appendChild(s);
+      });
+    }
+    async function ensureHtml2Canvas(){ if(window.html2canvas) return; await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'); }
+    async function ensureJsPDF(){ if(window.jspdf && window.jspdf.jsPDF) return; await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'); }
+
+    function clearAll(){
+      document.querySelectorAll('input[type=text], input[type=number]').forEach(i => i.value = '');
+      document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+      document.getElementById('resultBox').style.display = 'none';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function goBack(){ document.getElementById('resultBox').style.display='none'; window.scrollTo({top:0,behavior:'smooth'}); }
+
+    /* -------- Bindings -------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        const id = t.dataset.tab;
+        document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
+        document.getElementById('tab-' + id).style.display = 'block';
+        document.getElementById('resultBox').style.display = 'none';
+      }));
+
+      document.querySelectorAll('button[data-action]').forEach(btn => {
+        const action = btn.dataset.action;
+        if(action==='computeOption1') btn.addEventListener('click', computeOption1);
+        if(action==='computeOption2') btn.addEventListener('click', computeOption2);
+        if(action==='computeOption3') btn.addEventListener('click', computeOption3);
+        if(action==='applyStamp') btn.addEventListener('click', applyStamp);
+        if(action==='printPDF') btn.addEventListener('click', printPDF);
+        if(action==='shareWhatsApp') btn.addEventListener('click', shareWhatsApp);
+        if(action==='clearAll') btn.addEventListener('click', clearAll);
+        if(action==='goBack') btn.addEventListener('click', goBack);
+      });
+
+      document.querySelectorAll('.panel input').forEach(inp => {
+        inp.addEventListener('keypress', (e) => {
+          if(e.key === 'Enter'){
+            const activeTab = document.querySelector('.tab.active')?.dataset.tab || '1';
+            if(activeTab === '1') computeOption1();
+            else if(activeTab === '2') computeOption2();
+            else if(activeTab === '3') computeOption3();
+          }
+        });
+      });
+    });
+  </script>
+
+  <div id="captureLoader" style="display:none">
+    <div class="box">
+      <svg width="28" height="28" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round"></circle>
+      </svg>
+      <div id="loaderMsg" style="font-weight:700;color:var(--text-dark)"></div>
+    </div>
+  </div>
+</body>
+</html>

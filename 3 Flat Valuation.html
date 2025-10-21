@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>सरकारी किंमत कॅलक्युलेटर</title>
+<style>
+  :root { 
+    --primary: #2563eb; 
+    --primary-dark: #1d4ed8;
+    --secondary: #10b981; 
+    --accent: #f59e0b;
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --radius: 8px;
+    --pad: 16px;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+    margin: 0; 
+    background: var(--bg-main); 
+    color: var(--text); 
+    line-height: 1.5;
+    font-size: 14px;
+  }
+  
+  .container { 
+    max-width: 100vw; 
+    margin: 0 auto; 
+    padding: 12px; 
+  }
+  
+  @media (min-width: 768px) {
+    .container { max-width: 600px; padding: 16px; }
+  }
+  
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+    padding: 20px 16px;
+    margin: -12px -12px 20px -12px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: var(--shadow);
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  
+  .card { 
+    background: var(--bg-card);
+    border-radius: 12px; 
+    padding: var(--pad); 
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 16px 0;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary);
+  }
+  
+  .form-group { 
+    margin-bottom: 16px; 
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .form-col {
+    flex: 1;
+    min-width: 140px;
+  }
+  
+  .form-col-full {
+    width: 100%;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  
+  input, select { 
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: white;
+    transition: all 0.2s ease;
+  }
+  
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+  }
+  
+  .checkbox-group label {
+    margin: 0;
+    font-weight: 500;
+    font-size: 13px;
+  }
+  
+  .small-text {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 2px;
+    display: block;
+  }
+  
+  .btn { 
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+  }
+  
+  .btn-secondary {
+    background: var(--secondary);
+    color: white;
+  }
+  
+  .btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+  }
+  
+  .btn-outline:hover {
+    background: var(--primary);
+    color: white;
+  }
+  
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .btn-group .btn {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .result-box {
+    background: linear-gradient(135deg, var(--secondary) 0%, #059669 100%);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  
+  .result-amount {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 8px 0;
+  }
+  
+  .calc-info {
+    background: #f1f5f9;
+    padding: 16px;
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+  }
+  
+  .calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .calc-row:last-child {
+    border-bottom: none;
+    font-weight: 600;
+    background: white;
+    margin: 8px -8px -8px -8px;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+  }
+  
+  .details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  
+  .details-table tr {
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .details-table tr:last-child {
+    border-bottom: none;
+  }
+  
+  .details-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .details-table td:first-child {
+    font-weight: 600;
+    color: var(--text);
+    background: #f8fafc;
+    width: 40%;
+  }
+  
+.contact-box {
+    background: linear-gradient(135deg, #cce4ff 0%, #99ccff 100%);
+    color: #92400e;
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .contact-box h3 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+  }
+  
+  .docs-section {
+    background: #fef3c7;
+    border: 2px solid var(--accent);
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 20px;
+  }
+  
+  .docs-section h3 {
+    color: #92400e;
+    margin: 0 0 12px 0;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .docs-section ul {
+    margin: 0;
+    padding-left: 16px;
+  }
+  
+  .docs-section li {
+    font-size: 12px;
+    margin: 6px 0;
+    line-height: 1.4;
+  }
+  
+  .hidden { display: none !important; }
+  
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+  
+  .date-display {
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-light);
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  
+  .warning-text {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    font-size: 11px;
+    margin-top: 6px;
+  }
+  
+  @media print {
+    body * { visibility: hidden; }
+    #printSection, #printSection * { visibility: visible; }
+    #printSection { position: absolute; top: 0; left: 0; width: 100%; }
+    .btn { display: none !important; }
+    .header { margin: 0; }
+  }
+  
+  @media (max-width: 480px) {
+    .header h1 { font-size: 16px; }
+    .result-amount { font-size: 20px; }
+    .btn-group { flex-direction: column; }
+    .btn-group .btn { min-width: auto; }
+    .form-row { flex-direction: column; }
+    .form-col { min-width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>🏠 फ्लॅट जागा / सदनिकाचे<br>शासकिय मुल्यांकन</h1>
+  </div>
+
+  <!-- Page 1: Input Form -->
+  <section id="page1">
+    <div class="card">
+      <div class="section-title">📍 रेडीरेकन दर व तपशील</div>
+      
+      <!-- Row 1: एरिया + विभाग क्रमांक -->
+      <div class="form-group">
+        <div class="form-row">
+          <div class="form-col">
+            <label>एरिया</label>
+            <input id="area" type="text" placeholder="एरिया नाव">
+          </div>
+          <div class="form-col">
+            <label>विभाग क्रमांक</label>
+            <input id="dept" type="text" placeholder="क्रमांक">
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: खुली जागा दर + निवासी दर -->
+      <div class="form-group">
+        <div class="form-row">
+          <div class="form-col">
+            <label>खुली जागा दर (₹/चौ.मी.)</label>
+            <input id="openRate" type="number" min="0" step="0.01" placeholder="0.00">
+          </div>
+          <div class="form-col">
+            <label>निवासी दर (₹/चौ.मी.)</label>
+            <input id="resiRate" type="number" min="0" step="0.01" placeholder="0.00">
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Row 3: कारपेट Area + Built-up Area -->
+      <div class="form-group">
+        <div class="form-row">
+          <div class="form-col">
+            <label>Carpet Area (चौ.मी.)</label>
+            <input id="carpetArea" type="number" min="0" step="0.01" placeholder="0.00">
+          </div>
+          <div class="form-col">
+            <label>Built-up Area (चौ.मी.)</label>
+            <input id="builtupArea" type="number" min="0" step="0.01" placeholder="0.00">
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4: पार्किंग चेकबॉक्स -->
+      <div class="form-group">
+        <div class="form-row">
+          <div class="form-col">
+            <label style="margin-bottom: 8px;">पार्किंग प्रकार</label>
+            <div style="display: flex; gap: 16px;">
+              <div class="checkbox-group">
+                <input type="checkbox" id="coveredParking">
+                <label for="coveredParking">
+                  कव्हर्ड
+                  <span class="small-text">25%</span>
+                </label>
+              </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="openParking">
+                <label for="openParking">
+                  ओपन
+                  <span class="small-text">40%</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-col">
+            <!-- Empty column to maintain layout balance -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 5: मजला + वापर परवाना + लाईट बिल -->
+      <div class="form-group">
+        <div class="form-row">
+          <div class="form-col" style="flex: 1;">
+            <label>मजला</label>
+            <select id="floor">
+              <option value="base">तळमजला</option>
+              <option value="1to4">1 ला ते 4 था</option>
+              <option value="5to10">5 वा ते 10 वा (+5%)</option>
+              <option value="11plus">11 वा व त्यावरील (+10%)</option>
+            </select>
+          </div>
+          <div class="form-col" style="flex: 1;">
+            <label>वापर परवाना</label>
+            <input id="permitDate" type="date">
+          </div>
+          <div class="form-col" style="flex: 1;">
+            <label>लाईट बिल</label>
+            <input id="lightDate" type="date">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🏢 टेरेस तपशील</div>
+      
+      <div class="form-group">
+        <div class="form-col-full">
+          <label>टेरेस (चौ.मी.)</label>
+          <input id="terraceArea" type="number" min="0" step="0.01" placeholder="0.00">
+          <span class="small-text">फ्लॅट जागेचे कारपेट क्षेत्र सोडून</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label style="margin-bottom: 8px;">टेरेस विक्री प्रकार</label>
+        
+        <div style="display: flex; gap: 20px;">
+          <div class="checkbox-group">
+            <input type="checkbox" id="terraceIndependent">
+            <label for="terraceIndependent">
+              टेरेस स्वतंत्र विक्री
+              <span class="small-text">निवासी दर 40%</span>
+            </label>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="terraceWithFlat">
+            <label for="terraceWithFlat">
+              सदनिकेसह टेरेस विक्री
+              <span class="small-text">निवासी दर 25%</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="warning-text">
+          ⚠️ वरील दोन पैकी फक्त एकच पर्याय निवडा
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="goCalc()">📊 Calculate</button>
+      <button class="btn btn-outline" onclick="resetAll()">🔄 Reset</button>
+    </div>
+  </section>
+
+  <!-- Page 2: Calculation -->
+  <section id="page2" class="hidden">
+    <div class="card">
+      <div class="section-title">🧮 हिशोब (Calculation)</div>
+      
+      <div class="calc-info">
+        <div class="calc-row">
+          <span>इमारतीचे वय:</span>
+          <span id="ageYears"></span>
+        </div>
+        <div class="calc-row">
+          <span>वयोमान:</span>
+          <span id="vayoman"></span>
+        </div>
+        <div class="calc-row">
+          <span>मजला दर:</span>
+          <span id="finalRate"></span>
+        </div>
+        <div class="calc-row">
+          <span>मजला प्रकार:</span>
+          <span id="floorText"></span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="goOutput()">📄 Result</button>
+        <button class="btn btn-outline" onclick="backToInput()">← Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page 3: Result -->
+  <section id="page3" class="hidden">
+    <div id="printSection">
+      <div class="result-box">
+        <div>🏛️ सरकारी किंमत</div>
+        <div class="result-amount" id="valuation"></div>
+      </div>
+      
+      <div class="date-display" id="todayDate"></div>
+
+      <table class="details-table">
+        <tr><td>एरिया</td><td id="outArea"></td></tr>
+        <tr><td>विभाग क्रमांक</td><td id="outDept"></td></tr>
+        <tr><td>फ्लॅटचे क्षेत्र</td><td id="outCarpet"></td></tr>
+        <tr><td>निवासी दर</td><td id="outResi"></td></tr>
+        <tr><td>इमारतीचे वय</td><td id="outAge"></td></tr>
+        <tr><td>मजला</td><td id="outFloor"></td></tr>
+        <tr><td>पार्किंग</td><td id="outParking"></td></tr>
+        <tr><td>पार्किंग किंमत</td><td id="outParkingPrice"></td></tr>
+        <tr><td>टेरेस क्षेत्र</td><td id="outTerraceArea"></td></tr>
+        <tr><td>टेरेस किंमत</td><td id="outTerracePrice"></td></tr>
+      </table>
+
+      <div class="contact-box">
+	<h3 style="text-decoration: underline;"> -: अधिक माहिती करीता संपर्क  :-  </h3>
+        <div style="font-size: 13px; font-weight: 600;">
+          A2z Online Services,Solapur<br>
+          Ilahi Shaikh - 📞 8668696634
+        </div>
+      </div>
+
+      <div class="docs-section">
+        <h3>📋 फ्लॅट जागेच्या खरेदी दस्तऐवज नोंदणी करतांना लागणारी कागदपत्रे</h3>
+        <ul>
+          <li>सिटी सर्व्हेची मिळकत पत्रिका / 7/12 उतारा (चालू तारखेचा)</li>
+          <li>बांधकाम परवाना, बांधकाम नकाशा, वापर परवाना</li>
+          <li>जुने खरेदीखताची प्रत, फेरफार उतारे, इसारा पावती, सर्च रिपोर्ट</li>
+          <li>NA Order and Layout Copy</li>
+          <li>टॅक्स पावती (चालू वर्षाची)</li>
+          <li>लाईट बिल (चालू महिन्याचे)</li>
+          <li>घोषणापत्र झेरॉक्स प्रत</li>
+          <li>आधार, पॅन, फोटो प्रत्येकी- 3 नग</li>
+          <li>न्युज पेपर नोटीसची कटींग / वकिलाचा दाखला / NOC</li>
+          <li>दोन साक्षीदार कागदपत्रे (आधार, फोटो प्रत्येकी- 1 नग)</li>
+          <li>खरेदीखताचा मोबदला (चेक, RTGS, DD)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="btn-group" style="margin-top: 20px;">
+      <button class="btn btn-outline" onclick="backToCalc()">← Back </button>
+      <button class="btn btn-secondary" onclick="backToInput()">🆕 Clear </button>
+      <button class="btn btn-primary" onclick="window.print()">🖨️ प्रिंट / PDF</button>
+      <button id="waShareBtn" class="btn btn-primary" onclick="shareToWhatsApp()">📱 WhatsApp शेअर</button>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+const nf = new Intl.NumberFormat('en-IN', {maximumFractionDigits: 2});
+const money = n => "₹ " + nf.format(n);
+
+function yearsBetween(d1, d2) {
+  let y = d2.getFullYear() - d1.getFullYear();
+  if (d2 < new Date(d1.setFullYear(d2.getFullYear()))) y--;
+  return y;
+}
+
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+
+function backToInput() {
+  hide('page2'); hide('page3'); show('page1');
+}
+
+function backToCalc() {
+  hide('page3'); show('page2');
+}
+
+function goOutput() {
+  hide('page2'); show('page3');
+}
+
+function resetAll() {
+  document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], select').forEach(el => el.value = "");
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+  backToInput();
+}
+
+// Make checkboxes mutually exclusive
+document.addEventListener('DOMContentLoaded', () => {
+  const tInd = document.getElementById('terraceIndependent');
+  const tWith = document.getElementById('terraceWithFlat');
+  const openP = document.getElementById('openParking');
+  const coveredP = document.getElementById('coveredParking');
+  
+  if (tInd && tWith) {
+    tInd.addEventListener('change', () => { if (tInd.checked) tWith.checked = false; });
+    tWith.addEventListener('change', () => { if (tWith.checked) tInd.checked = false; });
+  }
+  
+  if (openP && coveredP) {
+    openP.addEventListener('change', () => { if (openP.checked) coveredP.checked = false; });
+    coveredP.addEventListener('change', () => { if (coveredP.checked) openP.checked = false; });
+  }
+});
+
+function goCalc() {
+  const area = document.getElementById('area').value || "";
+  const dept = document.getElementById('dept').value || "";
+  const open = parseFloat(document.getElementById('openRate').value);
+  const resi = parseFloat(document.getElementById('resiRate').value);
+  const carpet = parseFloat(document.getElementById('carpetArea').value);
+  const built = parseFloat(document.getElementById('builtupArea').value);
+  const floor = document.getElementById('floor').value;
+  const permit = document.getElementById('permitDate').value;
+  const light = document.getElementById('lightDate').value;
+  const terraceArea = parseFloat(document.getElementById('terraceArea').value);
+  const terraceInd = document.getElementById('terraceIndependent').checked;
+  const terraceWith = document.getElementById('terraceWithFlat').checked;
+
+  if (!isFinite(open) || !isFinite(resi)) {
+    alert("कृपया खुली/निवासी दर भरा");
+    return;
+  }
+
+  const today = new Date();
+  let age = 0;
+  if (permit) age = yearsBetween(new Date(permit), today);
+  else if (light) age = yearsBetween(new Date(light), today);
+  
+  let vyoman = Math.max(0, 100 - age);
+  const depr = (resi - open) * (vyoman / 100) + open;
+
+  let mult = 1, fText = "";
+  if (floor === "5to10") { mult = 1.05; fText = "5 वा ते 10 वा (+5%)"; }
+  else if (floor === "11plus") { mult = 1.10; fText = "11 वा व त्यावरील (+10%)"; }
+  else if (floor === "base") { fText = "तळमजला"; }
+  else { fText = "1 ला ते 4 था"; }
+  
+  const finalRate = depr * mult;
+
+  let totalArea = 0;
+  if (isFinite(carpet) && carpet > 0) totalArea = carpet * 1.10;
+  else if (isFinite(built) && built > 0) totalArea = built;
+  
+  const totalAreaDisplay = totalArea ? totalArea.toFixed(2) : "0.00";
+
+  // Parking calculation
+  const PARKING_AREA = 12.50;
+  let parkingPrice = 0;
+  let parkingTextParts = [];
+  const openParkRatePerSq = resi * 0.40;
+  const coveredParkRatePerSq = resi * 0.25;
+
+  if (document.getElementById('openParking').checked) {
+    parkingPrice += openParkRatePerSq * PARKING_AREA;
+    parkingTextParts.push("ओपन ✓");
+  }
+  if (document.getElementById('coveredParking').checked) {
+    parkingPrice += coveredParkRatePerSq * PARKING_AREA;
+    parkingTextParts.push("कव्हर्ड ✓");
+  }
+  if (parkingTextParts.length === 0) parkingTextParts.push("नाही");
+
+  // Terrace calculation
+  let terracePrice = 0;
+  let terraceRatePerSq = 0;
+  if (isFinite(terraceArea) && terraceArea > 0) {
+    if (terraceInd) {
+      terraceRatePerSq = resi * 0.40;
+    } else if (terraceWith) {
+      terraceRatePerSq = resi * 0.25;
+    } else {
+      terraceRatePerSq = 0;
+    }
+    terracePrice = terraceArea * terraceRatePerSq;
+  }
+
+  const baseValuation = finalRate * totalArea;
+  const totalValuation = baseValuation + parkingPrice + terracePrice;
+
+  // Page 2 data
+  document.getElementById('ageYears').textContent = age + " वर्षे";
+  document.getElementById('vayoman').textContent = vyoman + "%";
+  document.getElementById('finalRate').textContent = money(finalRate);
+  document.getElementById('floorText').textContent = fText;
+  
+  hide('page1'); show('page2');
+
+  // Page 3 data
+  document.getElementById('valuation').textContent = money(totalValuation);
+  document.getElementById('outArea').textContent = area;
+  document.getElementById('outDept').textContent = dept;
+  document.getElementById('outCarpet').textContent = totalAreaDisplay + " चौ.मी.";
+  document.getElementById('outResi').textContent = money(resi);
+  document.getElementById('outAge').textContent = age + " वर्षे";
+  document.getElementById('outFloor').textContent = fText;
+  document.getElementById('outParking').textContent = parkingTextParts.join(", ");
+  document.getElementById('outParkingPrice').textContent = money(parkingPrice);
+
+  const terraceAreaDisplay = (isFinite(terraceArea) && terraceArea > 0) ? 
+    terraceArea.toFixed(2) + " चौ.मी." : "0.00 चौ.मी.";
+  document.getElementById('outTerraceArea').textContent = terraceAreaDisplay;
+  document.getElementById('outTerracePrice').textContent = money(terracePrice);
+
+  // आजची तारीख दाखवणे
+  document.getElementById('todayDate').textContent = 
+    today.toLocaleDateString('mr-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+</script>
+
+<!-- WhatsApp शेअरिंग स्क्रिप्ट -->
+<script>
+async function shareToWhatsApp(){
+    const section=document.getElementById('printSection');
+    const waBtn=document.getElementById('waShareBtn');
+    const originalText=waBtn.textContent;
+    waBtn.textContent='Preparing...';
+    waBtn.disabled=true;
+
+    const origBodyBg=document.body.style.background;
+    const origSectionBg=section.style.background;
+    const origSectionPadding=section.style.padding;
+
+    try{
+        document.body.style.background='#ffffff';
+        section.style.background='#ffffff';
+        section.style.padding='18px';
+        await new Promise(r=>setTimeout(r,120));
+
+        const scale=Math.min(2, window.devicePixelRatio||1);
+        const canvas=await html2canvas(section,{useCORS:true, scale:scale, logging:false, scrollY:-window.scrollY});
+        const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));
+        if(!blob) throw new Error('Image generation failed');
+
+        const file=new File([blob],'valuation.png',{type:'image/png'});
+
+        if(navigator.canShare && navigator.canShare({files:[file]})){
+            try{
+                await navigator.share({files:[file], title:'सरकारी किंमत', text:'ही तुमची सरकारी किंमत रिपोर्ट आहे'});
+                waBtn.textContent='Shared ✓';
+                setTimeout(()=>{waBtn.textContent=originalText; waBtn.disabled=false;},1200);
+                return;
+            }catch(e){console.warn('native share failed', e);}    
+        }
+
+        const url=URL.createObjectURL(blob);
+        window.open(url,'_blank');
+        const msg=encodeURIComponent('ही तुमची सरकारी किंमत रिपोर्ट आहे. प्रत डाउनलोड करून WhatsApp वर शेअर करा.');
+        const waWebUrl='https://web.whatsapp.com/send?text='+msg;
+        window.open(waWebUrl,'_blank');
+        waBtn.textContent='Image opened — share manually';
+        setTimeout(()=>URL.revokeObjectURL(url),60000);
+
+    }catch(err){
+        console.error(err);
+        alert('शेअर करताना त्रुटी आली: '+(err.message||err));
+    }finally{
+        document.body.style.background=origBodyBg;
+        section.style.background=origSectionBg;
+        section.style.padding=origSectionPadding;
+        waBtn.disabled=false;
+        setTimeout(()=>waBtn.textContent=originalText,1400);
+    }
+}
+</script>
+
+</body>
+</html>

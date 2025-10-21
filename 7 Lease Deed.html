@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>भाडेपट्टयाचे सरकारी मुल्यांकन </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #87CEEB, #E6E6FA);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+      border-radius: 10px;
+    }
+    .btn-custom {
+      background: #007bff;
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0px 3px 10px rgba(0,0,0,0.3);
+    }
+    .btn-custom:hover {
+      background: #0056b3;
+    }
+    .explain-box {
+      background: #f8f9fa;
+      border-left: 4px solid #0d6efd;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      white-space: pre-line;
+    }
+    table input[type="number"] {
+      width: 80px;
+    }
+    .alert-info {
+      background-color: #d1ecf1;
+      border-color: #bee5eb;
+      color: #0c5460;
+    }
+    .deposit-section {
+      background: #fff3cd;
+      border: 1px solid #ffecb5;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .docs-section {
+      background: #f9f9f9;
+      border-left: 5px solid #007bff;
+      padding: 13px 18px;
+      border-radius: 9px;
+      margin: 20px 0;
+    }
+    .powered-by {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      text-align: center;
+      font-size: 14px;
+    }
+    .scroll-container {
+      height: 60px;
+      overflow: hidden;
+      position: relative;
+      background: #e9ecef;
+      border-radius: 8px;
+      margin: 10px 0;
+      padding: 5px;
+    }
+    .scroll-text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: scroll-left 20s linear infinite;
+      font-size: 13px;
+      color: #8B4513;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .blink-note {
+      color: #dc3545;
+      font-weight: bold;
+      animation: blink 1.4s infinite;
+      text-align: center;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .yearly-rent-table {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 15px;
+      background: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+    .yearly-rent-item {
+      padding: 4px 0;
+      font-size: 0.9rem;
+      border-bottom: 1px dotted #ccc;
+    }
+    .yearly-rent-item:last-child {
+      border-bottom: none;
+    }
+    .blink-at {
+      color: red !important;
+      animation: blink 1s infinite;
+    }
+    
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      
+      @page {
+        size: A4 !important;
+        margin: 8mm !important;
+        padding: 0 !important;
+      }
+      
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+        background: white !important;
+        color: black !important;
+      }
+      
+      body * {
+        visibility: hidden !important;
+      }
+      
+      #printSection, #printSection * {
+        visibility: visible !important;
+      }
+      
+      #printSection {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+      
+      .print-header {
+        text-align: center !important;
+        margin-bottom: 12px !important;
+        border-bottom: 2px solid #333 !important;
+        padding-bottom: 8px !important;
+        page-break-inside: avoid !important;
+      }
+      
+      .print-header h3 {
+        font-size: 20px !important;
+        margin: 5px 0 !important;
+        color: #000 !important;
+        font-weight: bold !important;
+      }
+      
+      .print-period {
+        font-size: 16px !important;
+        margin: 7px 0 !important;
+        color: #333 !important;
+        text-align: center !important;
+        font-weight: bold !important;
+      }
+      
+      .print-table {
+        width: 48% !important;
+        float: left !important;
+        margin-right: 2% !important;
+        margin-bottom: 15px !important;
+        page-break-inside: avoid !important;
+      }
+      
+      .print-table table {
+        font-size: 13px !important;
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 0 !important;
+      }
+      
+      .print-table table th, 
+      .print-table table td {
+        padding: 4px 5px !important;
+        border: 1px solid #333 !important;
+        text-align: left !important;
+        vertical-align: top !important;
+        word-wrap: break-word !important;
+      }
+      
+      .print-table table th {
+        background-color: #f0f0f0 !important;
+        font-weight: bold !important;
+      }
+      
+      .print-summary {
+        width: 48% !important;
+        float: right !important;
+        margin-bottom: 15px !important;
+        page-break-inside: avoid !important;
+      }
+      
+      .print-summary .alert {
+        font-size: 13px !important;
+        padding: 7px !important;
+        margin: 5px 0 !important;
+        border: 1px solid #333 !important;
+        background: #f8f9fa !important;
+        page-break-inside: avoid !important;
+      }
+      
+      .print-summary .alert h6 {
+        font-size: 14px !important;
+        margin: 4px 0 !important;
+        font-weight: bold !important;
+      }
+      
+      .print-docs {
+        clear: both !important;
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 10px !important;
+        border: 1px solid #333 !important;
+        margin-top: 12px !important;
+        background: #f9f9f9 !important;
+        page-break-inside: avoid !important;
+      }
+      
+      .print-docs h6 {
+        font-size: 14px !important;
+        margin: 5px 0 !important;
+        font-weight: bold !important;
+      }
+      
+      .print-docs ul {
+        margin: 5px 0 !important;
+        padding-left: 18px !important;
+      }
+      
+      .print-docs ul li {
+        margin: 3px 0 !important;
+        line-height: 1.4 !important;
+        word-wrap: break-word !important;
+      }
+      
+      .print-contact {
+        background: #f0f0f0 !important;
+        padding: 8px !important;
+        text-align: center !important;
+        font-size: 13px !important;
+        margin: 10px 0 !important;
+        border: 1px solid #333 !important;
+        page-break-inside: avoid !important;
+      }
+      
+      .explain-box {
+        font-size: 12px !important;
+        padding: 6px !important;
+        margin: 5px 0 !important;
+        line-height: 1.4 !important;
+        border-left: 3px solid #333 !important;
+        background: #f8f9fa !important;
+        white-space: pre-line !important;
+        word-wrap: break-word !important;
+      }
+      
+      #actionButtons {
+        display: none !important;
+      }
+      
+      .container, .row, .col-lg-6, .card {
+        all: unset !important;
+      }
+      
+      .screen-only {
+        display: none !important;
+      }
+      
+      .print-table table tr {
+        page-break-inside: avoid !important;
+      }
+      
+      .print-header, .print-period, .print-contact {
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+      }
+    }
+
+    .wa-share-layout {
+      background: white !important;
+      padding: 15px !important;
+      font-family: Arial, sans-serif !important;
+      max-width: 800px !important;
+      margin: 0 auto !important;
+    }
+    .wa-share-layout .print-header {
+      text-align: center;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 8px;
+    }
+    .wa-share-layout .print-header h3 {
+      font-size: 16px;
+      margin: 4px 0;
+      color: #000;
+    }
+    .wa-share-layout .print-period {
+      font-size: 13px;
+      margin: 6px 0;
+      color: #333;
+      text-align: center;
+      font-weight: bold;
+    }
+    .wa-share-layout .print-table {
+      width: 48%;
+      float: left;
+      margin-right: 2%;
+      margin-bottom: 12px;
+    }
+    .wa-share-layout .print-table table {
+      font-size: 10px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .wa-share-layout .print-table table th, 
+    .wa-share-layout .print-table table td {
+      padding: 3px;
+      border: 1px solid #333;
+      text-align: left;
+    }
+    .wa-share-layout .print-summary {
+      width: 48%;
+      float: right;
+      margin-bottom: 12px;
+    }
+    .wa-share-layout .print-summary .alert {
+      font-size: 9px;
+      padding: 6px;
+      margin: 4px 0;
+      border: 1px solid #333;
+      background: #f8f9fa;
+    }
+    .wa-share-layout .print-docs {
+      clear: both;
+      width: 100%;
+      font-size: 9px;
+      padding: 8px;
+      border: 1px solid #333;
+      margin-top: 8px;
+      background: #f9f9f9;
+    }
+    .wa-share-layout .print-docs ul li {
+      margin: 2px 0;
+      line-height: 1.1;
+    }
+    .wa-share-layout .print-contact {
+      background: #f0f0f0;
+      padding: 6px;
+      text-align: center;
+      font-size: 10px;
+      margin: 8px 0;
+      border: 1px solid #333;
+    }
+    .wa-share-layout .explain-box {
+      font-size: 9px;
+      padding: 4px;
+      margin: 3px 0;
+      line-height: 1.1;
+      border-left: 2px solid #333;
+      background: #f8f9fa;
+    }
+    .wa-share-layout .screen-only {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <div class="card p-4">
+          <h2 class="text-center mb-3">भाडे कराराचे सरकारी मूल्यांकन<br><small style="font-size: 0.7em;">(Input Window)</small></h2>
+          <form id="leaseForm">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">‍भाड्याने देण्यात येणारे मिळकतीची सरकारी किंमत (₹)</label>
+                <input type="number" id="marketValue" class="form-control" min="0" step="any" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">भाडे कराराची मुदत (वर्षे)</label>
+                <input type="number" id="leaseYears" class="form-control" min="1" step="1" required />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">सुरुवातीची तारीख</label>
+                <input type="date" id="startDate" class="form-control" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">शेवटची तारीख (ऑटो)</label>
+                <input type="date" id="endDate" class="form-control" readonly />
+              </div>
+            </div>
+            <div class="deposit-section">
+              <h6><strong>जर डिपॉझिट देत असल्यास माहिती भरा :- </strong></h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="form-label">रिफंडेबल डिपॉझिट (₹)</label>
+                  <input type="number" id="refundableDeposit" class="form-control" min="0" value="0" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">नॉन-रिफंडेबल डिपॉझिट (₹)</label>
+                  <input type="number" id="nonRefundableDeposit" class="form-control" min="0" value="0" />
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">दर महा भाडे (₹)</label>
+                <input type="number" id="monthlyRent" class="form-control" min="0" step="any" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">एकूण कालावधी</label>
+                <input type="text" id="totalPeriod" class="form-control" readonly />
+              </div>
+            </div>
+            <h6 class="mt-4"><strong>जर भाडे वाढ असेल तर खालील तक्ता वापरावा.</strong><br> (पासून-वर्षे ते पर्यंत-वर्षे, भाडे वाढ टक्केवारी %, वाढीचा प्रकार)</h6>
+            <div class="row mb-3 align-items-end">
+              <div class="col-2">
+                <input type="number" id="fromYear" class="form-control" placeholder="वर्ष" min="1" />
+              </div>
+              <div class="col-2">
+                <input type="number" id="toYear" class="form-control" placeholder="वर्ष " min="1" />
+              </div>
+              <div class="col-3">
+                <input type="number" id="incrementPercent" class="form-control" placeholder="टक्के (%)" min="0" step="0.01" />
+              </div>
+              <div class="col-3">
+                <select id="incrementType" class="form-control">
+                  <option value="once">फिक्स भाडे वाढ</option>
+                  <option value="annual">दर वर्षी भाडे वाढ</option>
+                </select>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-primary btn-sm" id="addRuleBtn">Rule जोडा</button>
+              </div>
+            </div>
+            <div>
+              <h6>वाढीचे नियम</h6>
+              <table class="table table-bordered" id="rulesTable">
+                <thead>
+                  <tr>
+                    <th>पासून वर्ष</th>
+                    <th>पर्यंत वर्ष</th>
+                    <th>टक्केवारी (%)</th>
+                    <th>वाढीचा प्रकार</th>
+                    <th>काढा</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="text-center mt-3">
+              <button type="button" id="calculateBtn" class="btn btn-custom px-4">Calculate</button>
+              <button type="button" id="resetBtn" class="btn btn-secondary px-4 ms-2">Reset</button>
+            </div>
+          </form>
+          
+          <div class="powered-by">
+            – Powered by –<br>
+            <strong>A2z Online Services, Solapur</strong><br>
+            il<span class="blink-at">@</span>hi Shaikh 📱 8668696634
+          </div>
+
+          <div class="scroll-container">
+            <div class="scroll-text">आमच्याकडे कायदेशीर भाषेत खरेदीखत, साठेखत, भाडेपट्टा इत्यादी दस्तऐवज टंकलिखीत करून मिळतील. * एक वेळ आवश्य भेट द्या * </div>
+          </div>
+
+          <div class="blink-note">
+            Note: This is a private webpage. Data shown is not government verified. <br> Please cross-check before use.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb-4">
+        <div class="card p-4" id="printArea">
+          <div id="printSection">
+            <div id="resultSection" style="display:none">
+              <div class="print-header">
+                <h3>-: भाडेपट्टयाचे सरकारी मुल्यांकन :-</h3>
+                <div class="print-period" id="leasePeriodDisplay"></div>
+              </div>
+              
+              <div class="print-table">
+                <table class="table table-bordered">
+                  <tr><th>सरकारी किंमत </th><td id="marketVal"></td></tr>
+                  <tr><th>सरकारी मूल्यांकन (टक्केवारी नुसार) </th><td id="govVal"></td></tr>
+                  <tr><th>रिफंडेबल डिपॉझिट </th><td id="refundableDepositVal"></td></tr>
+                  <tr><th>नॉन-रिफंडेबल डिपॉझिट </th><td id="nonRefundableDepositVal"></td></tr>
+                  <tr><th>एकूण मूल्यांकन </th><td id="totalMarketVal"></td></tr>
+                  <tr><th>मुद्रांक शुल्क – 5% </th><td id="stampDuty"></td></tr>
+                  <tr><th>नोंदणी फी – 1% </th><td id="regFee"></td></tr>
+                  <tr><th>एकूण रक्कम (मु.शु.+नो.फी.)</th><td id="totalAmount"></td></tr>
+                </table>
+                <div id="explanationGov" class="explain-box"></div>
+                <div id="explanationReg" class="explain-box"></div>
+              </div>
+
+              <div class="print-summary">
+                <div class="alert alert-info">
+                  <h6><strong>भाडे सारांश</strong></h6>
+                  <strong>पहिल्या वर्षाचे मासिक भाडे:</strong> <span id="firstYearRent"></span><br>
+                  <strong>शेवटच्या वर्षाचे मासिक भाडे:</strong> <span id="lastYearRent"></span><br>
+                  <strong>एकूण वार्षिक भाडे:</strong> <span id="totalAnnualRent"></span><br>
+                  <strong>सरासरी वार्षिक भाडे:</strong> <span id="avgAnnualRent"></span>
+                </div>
+                <div class="alert alert-warning">
+                  <h6><strong>भाडे वाढीचे नियम सारांश</strong></h6>
+                  <div id="incrementRulesSummary"></div>
+                </div>
+                <div class="alert alert-secondary screen-only">
+                  <h6><strong>वर्षनिहाय भाडे तपशील</strong></h6>
+                  <div id="yearlyRentDetails" class="yearly-rent-table"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div id="documentsSection" style="display:none" class="print-docs">
+              <h8> टिप :- हा मुल्यांकन तक्ता शासकिय रेडिरेकनरचे नियमास अनुसरुन, पक्षकारांनी दिलेल्या माहितीवरुन व त्यांचे सुविधेसाठी तयार करण्यात आलेला आहे.  वापरकर्त्याने सह दु.नि.कार्यालयात प्रत्यक्ष जावून क्रॉस चेक/ पडताळणी करुन घ्यावे.  </h8> <br><br>
+              <h7><strong>भाडे करार दस्त नोंदणीसाठी लागणारी कागदपत्रे  :- </strong></h7>
+              <ul>
+                <li>7/12 उतारा/  सिटी सर्व्हे उतारा / हद्दवाढ मधील फ्लॅट असल्यास इंडेक्स</li>
+                <li>मिळकत बांधीव असल्यास- बांधकाम नकाशा/परवाना अथवा ग्रा.प. /  म.न.पाचे प्रॉपर्टी कार्ड </li>
+                <li>मिळकत जुनी असल्यास-  लाईट बिल, वापर परवाना, टॅक्स पावती</li>
+                <li>भाडेकरु व जागा मालक यांचे आधार/ पॅन/ फोटो- 1</li>
+                <li>दोन साक्षीदारांचे आधार/ फोटो-1</li>
+                <li>डिपॉझिटची रक्कम कशी दिली, ( रोख/  चेक/  RTGS/ DD ) यांचा तपशिल </li><br>
+                <li> <span style="color: blue;">आमच्याकडे कायदेशीर भाषेत खरेदीखत, साठेखत, बक्षिसपत्र, वाटणीपत्र, मृत्यूपत्र, दत्तकपत्र, हक्कसोड पत्र, गहाणखत, गहाणमुक्ती, नोटीस ऑफ इंटिमेशन, 
+      विकसनकरार, कुलमुखत्यार पत्र, लिव्ह ॲण्ड लायसेन्सी, इसारा पावती, नोटरी कब्जे पावती इत्यादी दस्तऐवज टंकलिखीत करून मिळतील. </span></li>
+              </ul>
+              
+              <div class="print-contact">
+                <strong>अधिक माहितीसाठी संपर्क :-</strong><br>
+                <span style="color: red;">A2z Online Services, Solapur <br> 
+                Cell- 8668696634 </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-3" id="actionButtons" style="display:none">
+            <button class="btn btn-success me-2" onclick="window.print()">Print</button>
+            <button id="waShareBtn" class="btn btn-success">WhatsApp शेअर</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  let incrementRules = [];
+  
+  function autoEndDate() {
+    let startVal = document.getElementById("startDate").value;
+    let years = parseInt(document.getElementById("leaseYears").value, 10);
+    if (startVal && years && years > 0) {
+      let startDate = new Date(startVal);
+      let endDate = new Date(startDate);
+      endDate.setFullYear(endDate.getFullYear() + years);
+      endDate.setDate(endDate.getDate() - 1); // एक दिवस कमी करा
+      if (!isNaN(endDate)) {
+        document.getElementById("endDate").value = endDate.toISOString().split("T")[0];
+      }
+      updateTotalPeriod();
+    }
+  }
+  
+  function updateTotalPeriod() {
+    let startDateVal = document.getElementById("startDate").value;
+    let endDateInput = document.getElementById("endDate").value;
+    if (startDateVal && endDateInput) {
+      let startDate = new Date(startDateVal);
+      let endDate = new Date(endDateInput);
+      let diffMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+                      (endDate.getMonth() - startDate.getMonth());
+      if (diffMonths >= 0) {
+        document.getElementById("totalPeriod").value =
+          diffMonths + " महिने (" + (diffMonths / 12).toFixed(1) + " वर्षे)";
+      }
+    }
+  }
+  
+  function addIncrementRule() {
+    let fromYear = parseInt(document.getElementById("fromYear").value, 10);
+    let toYear = parseInt(document.getElementById("toYear").value, 10);
+    let percent = parseFloat(document.getElementById("incrementPercent").value);
+    let type = document.getElementById("incrementType").value;
+    
+    if (!fromYear || !toYear || isNaN(percent) || fromYear > toYear || fromYear < 1) {
+      alert("कृपया वैध पासून, पर्यंत वर्षे आणि टक्केवारी भरा.");
+      return;
+    }
+    
+    for (let r of incrementRules) {
+      if (!(toYear < r.fromYear || fromYear > r.toYear)) {
+        alert("वाढीच्या नियमात कालावधी ओव्हरलॅप होऊ नये.");
+        return;
+      }
+    }
+    
+    incrementRules.push({fromYear, toYear, percent, type});
+    incrementRules.sort((a, b) => a.fromYear - b.fromYear);
+    renderRulesTable();
+    clearIncrementInputs();
+  }
+  
+  function clearIncrementInputs() {
+    document.getElementById("fromYear").value = "";
+    document.getElementById("toYear").value = "";
+    document.getElementById("incrementPercent").value = "";
+    document.getElementById("incrementType").value = "once";
+  }
+  
+  function renderRulesTable() {
+    let tbody = document.querySelector("#rulesTable tbody");
+    tbody.innerHTML = "";
+    incrementRules.forEach((rule, idx) => {
+      let tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${rule.fromYear}</td>
+        <td>${rule.toYear}</td>
+        <td>${rule.percent.toFixed(2)}</td>
+        <td>${rule.type === 'once' ? 'फिक्स भाडे वाढ' : 'दर वर्षी भाडे वाढ'}</td>
+        <td><button type="button" class="btn btn-danger btn-sm" data-index="${idx}">काढा</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+  
+  function removeRule(index) {
+    incrementRules.splice(index, 1);
+    renderRulesTable();
+  }
+  
+  function getIncrementInfoForYear(year) {
+    for (let rule of incrementRules) {
+      if (year >= rule.fromYear && year <= rule.toYear) {
+        return {percent: rule.percent, type: rule.type, rule: rule};
+      }
+    }
+    return {percent: 0, type: 'none', rule: null};
+  }
+  
+  function resetForm() {
+    document.getElementById("leaseForm").reset();
+    document.getElementById("refundableDeposit").value = "0";
+    document.getElementById("nonRefundableDeposit").value = "0";
+    document.getElementById("incrementType").value = "once";
+    incrementRules = [];
+    renderRulesTable();
+    document.getElementById("resultSection").style.display = "none";
+    document.getElementById("documentsSection").style.display = "none";
+    document.getElementById("actionButtons").style.display = "none";
+  }
+  
+  function calculate() {
+    let marketValue = parseFloat(document.getElementById("marketValue").value);
+    let refundableDeposit = parseFloat(document.getElementById("refundableDeposit").value) || 0;
+    let nonRefundableDeposit = parseFloat(document.getElementById("nonRefundableDeposit").value) || 0;
+    let leaseYears = parseInt(document.getElementById("leaseYears").value, 10);
+    let startDateVal = document.getElementById("startDate").value;
+    let endDateInput = document.getElementById("endDate").value;
+    let monthlyRent = parseFloat(document.getElementById("monthlyRent").value);
+    
+    if (!startDateVal || !endDateInput || Number.isNaN(marketValue) || Number.isNaN(leaseYears) || leaseYears < 1 || Number.isNaN(monthlyRent) || monthlyRent < 0) {
+      alert("सर्व माहिती योग्य भरावी.");
+      return;
+    }
+    
+    let startDate = new Date(startDateVal);
+    let endDate = new Date(endDateInput);
+    let diffMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+                    (endDate.getMonth() - startDate.getMonth());
+    if (diffMonths < 0) {
+      alert("शेवटची तारीख सुरुवातीच्या तारखेच्या नंतर असावी.");
+      return;
+    }
+    
+    updateTotalPeriod();
+    
+    let percent = 0;
+    if (leaseYears <= 5) percent = 0.10;
+    else if (leaseYears <= 10) percent = 0.25;
+    else if (leaseYears <= 29) percent = 0.50;
+    else percent = 0.90;
+    
+    let govVal = marketValue * percent;
+    let totalMarketValue = govVal + refundableDeposit + nonRefundableDeposit;
+    
+    let stampDutyRaw = totalMarketValue * 0.05;
+    let stampDuty = Math.max(100, Math.round(stampDutyRaw / 100) * 100);
+    
+    let rents = [];
+    let currentRent = monthlyRent;
+    let yearlyDetails = [];
+    
+    for (let year = 1; year <= leaseYears; year++) {
+      let incrementInfo = getIncrementInfoForYear(year);
+      let rentForThisYear = currentRent;
+      let appliedIncrement = 0;
+      
+      if (year > 1 && incrementInfo.percent > 0) {
+        if (incrementInfo.type === 'once') {
+          if (year === incrementInfo.rule.fromYear) {
+            currentRent = currentRent * (1 + incrementInfo.percent / 100);
+            appliedIncrement = incrementInfo.percent;
+          }
+        } else if (incrementInfo.type === 'annual') {
+          currentRent = currentRent * (1 + incrementInfo.percent / 100);
+          appliedIncrement = incrementInfo.percent;
+        }
+      }
+      
+      rentForThisYear = currentRent;
+      
+      rents.push({
+        year,
+        monthlyRent: rentForThisYear,
+        annualRent: rentForThisYear * 12,
+        appliedIncrement: appliedIncrement
+      });
+      
+      yearlyDetails.push(`वर्ष ${year}: ₹${rentForThisYear.toLocaleString('en-IN', {maximumFractionDigits: 2})} ${appliedIncrement > 0 ? `(${appliedIncrement}% वाढ)` : ''}`);
+    }
+    
+    let totalRent = rents.reduce((sum, r) => sum + r.annualRent, 0);
+    let avgAnnualRent = totalRent / leaseYears;
+    
+    let base = 0;
+    if (leaseYears <= 3) base = Math.min(totalRent, avgAnnualRent);
+    else if (leaseYears <= 10) base = avgAnnualRent * 3;
+    else if (leaseYears <= 29) base = avgAnnualRent * 5;
+    else base = avgAnnualRent * 10;
+    
+    let regFeeRaw = base * 0.01;
+    let regFee = Math.max(100, Math.min(30000, Math.round(regFeeRaw / 100) * 100));
+    let totalAmount = stampDuty + regFee;
+    
+    document.getElementById("marketVal").innerText = "₹" + marketValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("govVal").innerText = "₹" + govVal.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("refundableDepositVal").innerText = "₹" + refundableDeposit.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("nonRefundableDepositVal").innerText = "₹" + nonRefundableDeposit.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("totalMarketVal").innerText = "₹" + totalMarketValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("stampDuty").innerText = "₹" + stampDuty.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("regFee").innerText = "₹" + regFee.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("totalAmount").innerText = "₹" + totalAmount.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    
+    let startDateStr = new Date(startDateVal).toLocaleDateString('mr-IN');
+    let endDateStr = new Date(endDateInput).toLocaleDateString('mr-IN');
+    document.getElementById("leasePeriodDisplay").innerText =
+      `मुदत: ${startDateStr} ते ${endDateStr} (${leaseYears} वर्षे)`;
+    
+    document.getElementById("resultSection").style.display = "block";
+    
+    document.getElementById("explanationGov").innerText =
+      `सरकारी मूल्यांकन गणना:\n` +
+      `सरकारी किंमत = ₹${marketValue.toLocaleString('en-IN')}\n` +
+      `सरकारी मूल्यांकन (${percent*100}% नुसार) = ₹${marketValue.toLocaleString('en-IN')} × ${percent*100}% = ₹${govVal.toLocaleString('en-IN', {maximumFractionDigits: 2})}\n` +
+      `रिफंडेबल डिपॉझिट = ₹${refundableDeposit.toLocaleString('en-IN')}\n` +
+      `नॉन-रिफंडेबल डिपॉझिट = ₹${nonRefundableDeposit.toLocaleString('en-IN')}\n` +
+      `एकूण मूल्यांकन = ₹${govVal.toLocaleString('en-IN', {maximumFractionDigits: 2})} + ₹${refundableDeposit.toLocaleString('en-IN')} + ₹${nonRefundableDeposit.toLocaleString('en-IN')} = ₹${totalMarketValue.toLocaleString('en-IN', {maximumFractionDigits: 2})}\n` +
+      `मुद्रांक शुल्क = ₹${totalMarketValue.toLocaleString('en-IN', {maximumFractionDigits: 2})} × 5% = ₹${stampDuty.toLocaleString('en-IN')}`;
+    
+    document.getElementById("explanationReg").innerText =
+      `नोंदणी फी गणना:\n` +
+      `एकूण भाडे = ₹${totalRent.toLocaleString('en-IN', {maximumFractionDigits: 2})}\n` +
+      `सरासरी वार्षिक भाडे = ₹${avgAnnualRent.toLocaleString('en-IN', {maximumFractionDigits: 2})}\n` +
+      `नोंदणी फी बेस = ₹${base.toLocaleString('en-IN', {maximumFractionDigits: 2})}\n` +
+      `नोंदणी फी = ₹${base.toLocaleString('en-IN', {maximumFractionDigits: 2})} × 1% = ₹${regFee.toLocaleString('en-IN')}\n\n` +
+      `टीप- मुद्रांक शुल्क हे कमीत कमी रु.100/- आणि\n` +
+      `व नोंदणी फी हि कमीत कमी रु.100/- आणि जास्तीत जास्त रु.30,000/- प्रमाणे राहिल.`;
+    
+    document.getElementById("firstYearRent").innerText = "₹" + rents[0].monthlyRent.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("lastYearRent").innerText = "₹" + rents[rents.length-1].monthlyRent.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("totalAnnualRent").innerText = "₹" + totalRent.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    document.getElementById("avgAnnualRent").innerText = "₹" + avgAnnualRent.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    
+    let rulesSummary = "";
+    if (incrementRules.length === 0) {
+      rulesSummary = "भाडेवाढीचे कोणते नियम नाहीत";
+    } else {
+      rulesSummary = incrementRules.map(rule =>
+        `वर्ष ${rule.fromYear}-${rule.toYear}: ${rule.percent}% वाढ (${rule.type === 'once' ? 'फिक्स भाडे वाढ' : 'दर वर्षी भाडे वाढ'})`
+      ).join("<br>");
+    }
+    document.getElementById("incrementRulesSummary").innerHTML = rulesSummary;
+    
+    let yearlyTableItems = rents.map(rent => 
+      `<div class="yearly-rent-item">वर्ष ${rent.year} करीता दर महा भाडे : ₹${rent.monthlyRent.toLocaleString('en-IN', {maximumFractionDigits: 0})}/- ${rent.appliedIncrement > 0 ? `<span style="color: green;">(${rent.appliedIncrement}% भाडे वाढ)</span>` : ''}</div>`
+    ).join('');
+    document.getElementById("yearlyRentDetails").innerHTML = yearlyTableItems;
+    
+    document.getElementById("documentsSection").style.display = "block";
+    document.getElementById("actionButtons").style.display = "block";
+  }
+  
+  async function shareToWhatsApp(){
+    const section = document.getElementById('printSection');
+    const waBtn = document.getElementById('waShareBtn');
+    const originalText = waBtn.textContent;
+    waBtn.textContent = 'Preparing...';
+    waBtn.disabled = true;
+
+    const origBodyBg = document.body.style.background;
+    const origBodyColor = document.body.style.color;
+    const origSectionClasses = section.className;
+
+    try {
+        document.body.style.background = '#ffffff';
+        document.body.style.color = '#000000';
+        section.className = 'wa-share-layout';
+        
+        await new Promise(r => setTimeout(r, 200));
+
+        const scale = 2;
+        const canvas = await html2canvas(section, {
+            useCORS: true, 
+            scale: scale, 
+            logging: false, 
+            scrollY: -window.scrollY,
+            backgroundColor: '#ffffff',
+            width: section.offsetWidth,
+            height: section.offsetHeight
+        });
+        
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 0.95));
+        if (!blob) throw new Error('Image generation failed');
+
+        const file = new File([blob], 'lease_valuation.png', {type: 'image/png'});
+
+        if (navigator.canShare && navigator.canShare({files: [file]})) {
+            try {
+                await navigator.share({
+                    files: [file], 
+                    title: 'भाडे करार मूल्यांकन', 
+                    text: 'ही तुमची भाडे करार मूल्यांकन रिपोर्ट आहे'
+                });
+                waBtn.textContent = 'Shared ✓';
+                setTimeout(() => {
+                    waBtn.textContent = originalText; 
+                    waBtn.disabled = false;
+                }, 1500);
+                return;
+            } catch(e) {
+                console.warn('native share failed', e);
+            }    
+        }
+
+        const url = URL.createObjectURL(blob);
+        const newWindow = window.open(url, '_blank');
+        
+        const msg = encodeURIComponent('ही तुमची भाडे करार मूल्यांकन रिपोर्ट आहे. कृपया डाउनलोड करून WhatsApp वर शेअर करा.');
+        setTimeout(() => {
+            window.open('https://web.whatsapp.com/send?text=' + msg, '_blank');
+        }, 1000);
+        
+        waBtn.textContent = 'Image Opened ✓';
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+
+    } catch(err) {
+        console.error('Share error:', err);
+        alert('शेअर करताना त्रुटी आली: ' + (err.message || err));
+    } finally {
+        document.body.style.background = origBodyBg;
+        document.body.style.color = origBodyColor;
+        section.className = origSectionClasses;
+        waBtn.disabled = false;
+        setTimeout(() => waBtn.textContent = originalText, 2000);
+    }
+  }
+  
+  document.getElementById("leaseYears").addEventListener('change', autoEndDate);
+  document.getElementById("startDate").addEventListener('change', autoEndDate);
+  document.getElementById("startDate").addEventListener('change', updateTotalPeriod);
+  document.getElementById("endDate").addEventListener('change', updateTotalPeriod);
+  document.getElementById("addRuleBtn").addEventListener('click', addIncrementRule);
+  document.getElementById("calculateBtn").addEventListener('click', calculate);
+  document.getElementById("resetBtn").addEventListener('click', resetForm);
+  document.getElementById("waShareBtn").addEventListener('click', shareToWhatsApp);
+  
+  document.querySelector("#rulesTable tbody").addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-danger')) {
+      const index = parseInt(e.target.getAttribute('data-index'));
+      removeRule(index);
+    }
+  });
+</script>
+</body>
+</html>
